@@ -34,7 +34,7 @@ body {
   left:0;
   width:100%;
   z-index:1200;
-  background: rgba(0,0,0,0.25);
+  background: rgba(0,0,0,0.25); 
   backdrop-filter: blur(4px);
   border-bottom: 1px solid rgba(255,255,255,0.04);
 }
@@ -225,14 +225,12 @@ body {
   border:0;
 }
 
-/* ---------- TRABAJA CON NOSOTROS ---------- */
-.trabaja-forms input{
-  border-radius:10px !important;
-}
-#estadoResultado{
-  font-weight:600;
-  margin-top:10px;
-  color: var(--red);
+/* ---------- WORK WITH US / Login Card Styling ---------- */
+#statusResult .card{
+  background: var(--white);
+  border-radius:12px;
+  padding:16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
 /* ---------- FOOTER ---------- */
