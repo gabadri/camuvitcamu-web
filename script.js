@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       const msgDiv = document.getElementById('msg');
       msgDiv.innerHTML = "Enviando...";
-      const webAppUrl = "https://script.google.com/macros/s/AKfycby6J8yH2GONYhMf-GGu72WSL1Hee1UJp29VxRMjo5CZxoim1tMX_CZfmZQQaDmid33YCQ/exec";
+      const webAppUrl = "https://script.google.com/macros/s/AKfycbwQVuiKQIqN-1D_-928Wsas7BmNp8fuBnH8ZW1I5Soq6OldA9fcwyzhmfQ6wrUQf5-bsg/exec";
       const formData = new URLSearchParams(new FormData(registerForm));
       try{
         const res = await fetch(webAppUrl,{method:"POST",body:formData});
@@ -51,3 +51,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
