@@ -1,49 +1,26 @@
-document.addEventListener('DOMContentLoaded', function() {
-
-  // 1) Toggle mobile menu
-  const navToggle = document.getElementById('navToggle');
-  const navLinks = document.getElementById('navLinks');
-
-  if (navToggle && navLinks) {
-    navToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
-    navLinks.addEventListener('click', (e) => {
-      if (e.target.tagName === 'A') navLinks.classList.remove('active');
-    });
+document.addEventListener("DOMContentLoaded", function(){
+  // Menu mobile
+  const navToggle = document.getElementById("navToggle");
+  const navLinks = document.getElementById("navLinks");
+  if(navToggle){
+    navToggle.addEventListener("click", ()=> navLinks.classList.toggle("active"));
   }
 
-  // 2) Year in footer
-  const yearEl = document.getElementById('year');
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
+  // Footer año
+  const yearEl = document.getElementById("year");
+  if(yearEl){ yearEl.textContent = new Date().getFullYear(); }
 
-  // 3) Contact form simple
-  const form = document.getElementById('contactForm');
-  if (form) {
-    form.addEventListener('submit', (e) => {
+  // Contacto
+  const contactForm = document.getElementById("contactForm");
+  if(contactForm){
+    contactForm.addEventListener("submit", e=>{
       e.preventDefault();
-      alert('Gracias por contactarnos. Te responderemos pronto.');
-      form.reset();
+      alert("Gracias por contactarnos. Te responderemos pronto.");
+      contactForm.reset();
     });
   }
 
-  // 4) Reveal animations
-  const reveals = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && reveals.length) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    reveals.forEach(el => io.observe(el));
-  } else {
-    reveals.forEach(el => el.classList.add('active'));
-  }
-
-  // 5) ===== TRABAJA CON NOSOTROS =====
+  // Google Apps Script
   const scriptURL = "https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec";
 
   const registerForm = document.getElementById("registerForm");
@@ -56,14 +33,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const formData = new FormData(registerForm);
       formData.append("action","register");
 
-      try {
+      try{
         const res = await fetch(scriptURL, { method:"POST", body:formData });
         const data = await res.json();
         alert(data.message);
         if(data.success){ registerForm.reset(); }
-      } catch(err){
-        alert("Error en el registro");
-      }
+      } catch(err){ alert("Error en el registro"); }
     });
   }
 
@@ -73,13 +48,13 @@ document.addEventListener('DOMContentLoaded', function() {
       const formData = new FormData(loginForm);
       formData.append("action","login");
 
-      try {
+      try{
         const res = await fetch(scriptURL, { method:"POST", body:formData });
         const data = await res.json();
         if(data.success){
-          loginForm.style.display = "none";
-          registerForm.style.display = "none";
-          userPanel.style.display = "block";
+          loginForm.style.display="none";
+          registerForm.style.display="none";
+          userPanel.style.display="block";
 
           document.getElementById("uNombre").textContent = data.data.nombre;
           document.getElementById("uDni").textContent = data.data.dni;
@@ -90,10 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
           alert(data.message);
         }
-      } catch(err){
-        alert("Error en el login");
-      }
+      } catch(err){ alert("Error en el login"); }
     });
   }
-
 });
