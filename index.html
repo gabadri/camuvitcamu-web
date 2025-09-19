@@ -1,113 +1,170 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CamuVitCamu</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CamuVitCamu — Auténtico sabor de la Amazonía</title>
+
+  <!-- Tu CSS -->
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="container">
-      <h1>CamuVitCamu</h1>
-      <nav>
-        <span id="navToggle">☰</span>
-        <ul id="navLinks">
-          <li><a href="#hero">Inicio</a></li>
-          <li><a href="#productos">Productos</a></li>
-          <li><a href="#contact">Contacto</a></li>
-          <li><a href="#trabaja">Trabaja con nosotros</a></li>
-        </ul>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container nav">
+      <div class="logo">
+        <img src="img/logo.png" alt="CamuvitCamu logo" />
+      </div>
+
+      <button id="navToggle" class="nav-toggle" aria-label="Abrir menú">☰</button>
+
+      <nav id="navLinks" class="nav-links">
+        <a href="#home">Inicio</a>
+        <a href="#about">Quiénes Somos</a>
+        <a href="#products">Productos</a>
+        <a href="#trabaja">Trabaja con Nosotros</a>
+        <a href="#contact">Contacto</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section id="hero">
-    <h2>Bienvenido a CamuVitCamu</h2>
-  </section>
-
-  <!-- Productos -->
-  <section id="productos" class="reveal">
-    <div class="container">
-      <h2>Nuestros Productos</h2>
-      <div class="producto">Producto 1</div>
-      <div class="producto">Producto 2</div>
-      <div class="producto">Producto 3</div>
-    </div>
-  </section>
-
-  <!-- Contacto -->
-  <section id="contact" class="reveal">
-    <div class="container">
-      <h2>Contáctanos</h2>
-      <form id="contactForm">
-        <input type="text" placeholder="Tu nombre" required>
-        <input type="email" placeholder="Tu correo" required>
-        <textarea placeholder="Tu mensaje" required></textarea>
-        <button type="submit">Enviar</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- Trabaja con nosotros -->
-  <section id="trabaja" class="reveal">
-    <div class="container">
-      <h2>Trabaja con nosotros</h2>
-
-      <!-- Registro de postulante -->
-      <div class="trabaja-form">
-        <h3>Regístrate como postulante</h3>
-        <form id="registroForm">
-          <label>Nombre Completo</label>
-          <input type="text" name="nombre" required>
-
-          <label>DNI</label>
-          <input type="text" name="dni" required>
-
-          <label>Correo</label>
-          <input type="email" name="correo" required>
-
-          <label>Carrera</label>
-          <input type="text" name="carrera" required>
-
-          <label>Nivel Educativo</label>
-          <select name="nivel" required>
-            <option value="">Seleccione</option>
-            <option value="Técnico">Técnico</option>
-            <option value="Universitario">Universitario</option>
-            <option value="Posgrado">Posgrado</option>
-          </select>
-
-          <label>Enlace a tu CV</label>
-          <input type="url" name="cv" required>
-
-          <button type="submit">Registrarme</button>
-        </form>
+  <!-- HERO -->
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-inner">
+        <h1 class="reveal">CamuVitCamu</h1>
+        <p class="subtitle reveal">Auténtico sabor de la Amazonía</p>
+        <a class="btn btn-primary reveal" href="#products">Ver productos</a>
       </div>
+    </section>
 
-      <!-- Acceso para ver estado -->
-      <div class="trabaja-estado">
-        <h3>Consultar estado de postulación</h3>
-        <form id="loginForm">
-          <label>Correo</label>
-          <input type="email" name="correo" required>
+    <!-- ABOUT -->
+    <section id="about" class="section about">
+      <div class="container">
+        <h2 class="reveal">Quiénes Somos</h2>
+        <p class="reveal">
+          En <strong>CamuVitCamu</strong> llevamos lo mejor de la Amazonía a tu vida:
+          productos naturales a base de camu camu, elaborados con respeto por la biodiversidad y las comunidades locales.
+        </p>
 
-          <label>Clave</label>
-          <input type="password" name="clave" required>
+        <div class="info-grid">
+          <div class="info-card reveal">
+            <h3>Misión</h3>
+            <p>Ofrecer productos nutritivos y sostenibles que potencien la salud y el bienestar.</p>
+          </div>
+          <div class="info-card reveal">
+            <h3>Visión</h3>
+            <p>Ser referencia internacional en calidad y responsabilidad con la Amazonía.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-          <button type="submit">Consultar Estado</button>
+    <!-- PRODUCTS -->
+    <section id="products" class="section products">
+      <div class="container">
+        <h2 class="reveal">Nuestros Productos</h2>
+        <div class="product-grid">
+          <article class="product-card reveal">
+            <img src="img/licor.jpg" alt="Licor de Camu Camu">
+            <div class="product-body">
+              <h3>Licor de Camu Camu</h3>
+              <p>Una bebida de carácter intenso y aroma frutal, ideal para momentos de celebración.</p>
+            </div>
+          </article>
+
+          <article class="product-card reveal">
+            <img src="img/harina.jpg" alt="Harina de Camu Camu">
+            <div class="product-body">
+              <h3>Harina de Camu Camu</h3>
+              <p>Práctica presentación, ideal para batidos o jugos.</p>
+            </div>
+          </article>
+
+          <article class="product-card reveal">
+            <img src="img/Nectar.jpg" alt="Nectar de Camu Camu">
+            <div class="product-body">
+              <h3>Jugo Natural</h3>
+              <p>Refrescante, nutritivo y lleno de energía natural.</p>
+            </div>
+          </article>
+
+          <article class="product-card reveal">
+            <img src="img/macerado.jpg" alt="Macerado de Camu Camu">
+            <div class="product-body">
+              <h3>Macerado de Camu Camu</h3>
+              <p>Ideal para compartir en reuniones y celebraciones, disfrutándolo solo, en cócteles o acompañado de hielo.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRABAJA CON NOSOTROS -->
+    <section id="trabaja" class="section trabaja-section reveal">
+      <div class="container">
+        <h2 class="section-title">Trabaja con Nosotros</h2>
+        <p>Postula a una vacante y revisa el estado de tu postulación.</p>
+
+        <div class="btn-group">
+          <!-- Abrimos las partes en la misma página (no usamos Bootstrap modal en este diseño) -->
+          <a class="btn btn-primary" href="#registroBox">Registrar Postulación</a>
+          <a class="btn btn-secondary" href="#loginBox">Consultar Estado</a>
+        </div>
+
+        <div id="registroBox" class="trabaja-form" style="margin-top:28px;">
+          <h3>Regístrate como postulante</h3>
+          <form id="registroForm">
+            <input type="text" name="nombre" placeholder="Nombre Completo" required>
+            <input type="text" name="dni" placeholder="DNI" required>
+            <input type="email" name="correo" placeholder="Correo" required>
+            <input type="text" name="carrera" placeholder="Carrera">
+            <input type="text" name="nivel" placeholder="Nivel Educativo">
+            <input type="url" name="cv" placeholder="Enlace a tu CV (Drive o URL)">
+            <button type="submit" class="btn btn-primary">Registrarme</button>
+            <p class="small" style="margin-top:10px;color:#666;">Al registrarte recibirás una clave por correo para consultar tu estado.</p>
+          </form>
+        </div>
+
+        <div id="loginBox" class="trabaja-estado" style="margin-top:28px;">
+          <h3>Consultar estado de postulación</h3>
+          <form id="loginForm">
+            <input type="email" name="correo" placeholder="Correo" required>
+            <input type="password" name="clave" placeholder="Clave" required>
+            <button type="submit" class="btn btn-primary">Consultar Estado</button>
+          </form>
+
+          <div id="estadoResultado" style="display:none; margin-top:12px;"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section contact">
+      <div class="container">
+        <h2 class="reveal">Contáctanos</h2>
+        <form id="contactForm" class="contact-form reveal">
+          <input type="text" name="name" placeholder="Nombre" required>
+          <input type="email" name="email" placeholder="Correo" required>
+          <textarea name="message" placeholder="Mensaje" required></textarea>
+          <button type="submit" class="btn btn-primary">Enviar</button>
         </form>
 
-        <div id="estadoResultado" style="display:none;"></div>
+        <div class="contact-info reveal">
+          <p>También puedes escribirnos por nuestras redes sociales o whatsapp.</p>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; <span id="year"></span> CamuVitCamu. Todos los derechos reservados.</p>
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> CamuVitCamu — Todos los derechos reservados.</p>
+    </div>
   </footer>
 
   <script src="script.js"></script>
