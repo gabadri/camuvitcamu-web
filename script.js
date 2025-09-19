@@ -1,15 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
-
   // 1) Toggle mobile menu
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
-
   if (navToggle && navLinks) {
     navToggle.addEventListener('click', () => {
       navLinks.classList.toggle('active');
     });
-
-    // close menu when clicking a link (mobile)
     navLinks.addEventListener('click', (e) => {
       if (e.target.tagName === 'A') navLinks.classList.remove('active');
     });
@@ -19,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // 3) Contact form submit
+  // 3) Contact form submit (simple)
   const form = document.getElementById('contactForm');
   if (form) {
     form.addEventListener('submit', (e) => {
@@ -29,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // 4) Scroll reveal
+  // 4) Simple scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && reveals.length) {
     const io = new IntersectionObserver((entries) => {
@@ -45,66 +41,58 @@ document.addEventListener('DOMContentLoaded', function() {
     reveals.forEach(el => el.classList.add('active'));
   }
 
-  // 5) Trabaja con Nosotros
-  const registerForm = document.getElementById('workForm');
-  const statusForm = document.getElementById('checkStatusForm');
-  const statusResult = document.getElementById('statusResult');
-
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec';
-
-  // Registro de nuevo postulante
+  // 5) Registro postulante
+  const registerForm = document.getElementById('registerForm');
   if (registerForm) {
-    registerForm.addEventListener('submit', function(e){
+    registerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const formData = new FormData(registerForm);
-      const data = {};
-      formData.forEach((value, key) => data[key] = value);
-
-      data.action = 'register'; // indicar registro
-      fetch(SCRIPT_URL, {
+      const data = {
+        action: 'register',
+        nombre: registerForm.name.value,
+        dni: registerForm.dni.value,
+        correo: registerForm.email.value,
+        carrera: registerForm.career.value,
+        nivel: registerForm.education.value,
+        cv: registerForm.cv.value
+      };
+      const res = await fetch('https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec', {
         method: 'POST',
-        body: JSON.stringify(data),
-      })
-      .then(res => res.json())
-      .then(res => {
-        alert(res.message || 'Postulación enviada. Revisa tu correo para la clave.');
-        registerForm.reset();
-      })
-      .catch(err => alert('Error al registrar postulante.'));
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      alert(result.message);
+      if(result.success) registerForm.reset();
     });
   }
 
-  // Consulta de estado
-  if (statusForm) {
-    statusForm.addEventListener('submit', function(e){
+  // 6) Login postulante
+  const loginForm = document.getElementById('loginForm');
+  const statusResult = document.getElementById('statusResult');
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const formData = new FormData(statusForm);
-      const data = {};
-      formData.forEach((value, key) => data[key] = value);
-
-      data.action = 'checkStatus'; // indicar consulta
-      fetch(SCRIPT_URL, {
+      const data = {
+        action: 'login',
+        correo: loginForm.email.value,
+        clave: loginForm.key.value
+      };
+      const res = await fetch('https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec', {
         method: 'POST',
-        body: JSON.stringify(data),
-      })
-      .then(res => res.json())
-      .then(res => {
-        if(res.success){
-          statusResult.innerHTML = `
-            <div class="card">
-              <p><strong>Nombre:</strong> ${res.nombre}</p>
-              <p><strong>DNI:</strong> ${res.dni}</p>
-              <p><strong>Correo:</strong> ${res.email}</p>
-              <p><strong>Clave:</strong> ${res.clave}</p>
-              <p><strong>Estado:</strong> ${res.estado}</p>
-              <p><strong>Fecha de Registro:</strong> ${res.fecha}</p>
-            </div>`;
-        } else {
-          statusResult.innerHTML = `<p>${res.message || 'No se encontró el postulante.'}</p>`;
-        }
-      })
-      .catch(err => statusResult.innerHTML = `<p>Error al consultar estado.</p>`);
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      if(result.success){
+        statusResult.innerHTML = `
+          <p><strong>Nombre:</strong> ${result.data.nombre}</p>
+          <p><strong>DNI:</strong> ${result.data.dni}</p>
+          <p><strong>Correo:</strong> ${result.data.correo}</p>
+          <p><strong>Clave:</strong> ${result.data.clave}</p>
+          <p><strong>Estado:</strong> ${result.data.estado}</p>
+          <p><strong>Fecha Registro:</strong> ${new Date(result.data.fecha).toLocaleDateString()}</p>
+        `;
+      } else {
+        statusResult.innerHTML = `<p style="color:red;">${result.message}</p>`;
+      }
     });
   }
-
 });
