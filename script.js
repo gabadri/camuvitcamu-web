@@ -46,4 +46,36 @@ document.addEventListener('DOMContentLoaded', function() {
     reveals.forEach(el => el.classList.add('active'));
   }
 
+  // 5) Registro de candidatos
+  const registerForm = document.getElementById('registerForm');
+  if (registerForm) {
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const msgDiv = document.getElementById('msg');
+      msgDiv.innerHTML = "Enviando...";
+
+      const webAppUrl = "TU_WEB_APP_URL"; // 👉 pega aquí la URL de tu Web App
+
+      const formData = new URLSearchParams(new FormData(registerForm));
+
+      try {
+        const res = await fetch(webAppUrl, {
+          method: "POST",
+          body: formData
+        });
+        const json = await res.json();
+
+        if (json.status === "success") {
+          msgDiv.innerHTML = `<div class="alert alert-success">${json.message}</div>`;
+          registerForm.reset();
+        } else {
+          msgDiv.innerHTML = `<div class="alert alert-danger">${json.message}</div>`;
+        }
+      } catch (err) {
+        msgDiv.innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`;
+      }
+    });
+  }
+
 });
