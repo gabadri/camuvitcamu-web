@@ -1,10 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-  const url = "https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec";
-
-  // -------------------
   // 1) Toggle mobile menu
-  // -------------------
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
 
@@ -18,110 +14,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // -------------------
-  // 2) Year in footer
-  // -------------------
+  // 2) Año dinámico en footer
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // -------------------
-  // 3) Formulario de postulación
-  // -------------------
-  const formPostulacion = document.getElementById('formPostulacion');
-  if (formPostulacion) {
-    formPostulacion.addEventListener('submit', async (e) => {
+  // 3) Formulario de contacto
+  const form = document.getElementById('contactForm');
+  if (form) {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
-
-      const formData = new FormData(formPostulacion);
-      const archivo = formData.get('cv');
-
-      if (!archivo || archivo.size === 0) {
-        alert('Por favor selecciona un CV.');
-        return;
-      }
-
-      // Convertir archivo a Base64
-      const arrayBuffer = await archivo.arrayBuffer();
-      const base64String = btoa(
-        new Uint8Array(arrayBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
-      );
-
-      // Preparar datos a enviar
-      const dataToSend = {
-        action: "registrar",
-        nombre: formData.get('nombre'),
-        dni: formData.get('dni'),
-        correo: formData.get('correo'),
-        carrera: formData.get('carrera'),
-        nivelEducativo: formData.get('nivelEducativo'),
-        cvBase64: base64String,
-        cvType: archivo.type,
-        cvName: archivo.name
-      };
-
-      try {
-        const res = await fetch(url, {
-          method: 'POST',
-          body: JSON.stringify(dataToSend)
-        });
-
-        const result = await res.json();
-
-        alert(result.message);
-        if (result.success) formPostulacion.reset();
-
-      } catch(err) {
-        alert('Error al enviar postulación: ' + err.message);
-      }
+      alert('Gracias por contactarnos. Te responderemos pronto.');
+      form.reset();
     });
   }
 
-  // -------------------
-  // 4) Acceso de postulantes
-  // -------------------
-  const formAcceso = document.getElementById('formAcceso');
-  if (formAcceso) {
-    formAcceso.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const correo = formAcceso.querySelector('input[name="correo"]').value;
-      const clave = formAcceso.querySelector('input[name="clave"]').value;
-      const resultadoDiv = document.getElementById('resultadoAcceso');
-
-      try {
-        const res = await fetch(url, {
-          method: 'POST',
-          body: JSON.stringify({ action: "acceso", correo, clave })
-        });
-
-        const result = await res.json();
-
-        if (result.success) {
-          const d = result.data;
-          resultadoDiv.innerHTML = `
-            <p><strong>Nombre:</strong> ${d.nombre}</p>
-            <p><strong>DNI:</strong> ${d.dni}</p>
-            <p><strong>Correo:</strong> ${d.correo}</p>
-            <p><strong>Clave:</strong> ${d.clave}</p>
-            <p><strong>Estado:</strong> ${d.estado}</p>
-            <p><strong>Fecha de Registro:</strong> ${new Date(d.fechaRegistro).toLocaleDateString()}</p>
-            <p><strong>Carrera:</strong> ${d.carrera}</p>
-            <p><strong>Nivel Educativo:</strong> ${d.nivelEducativo}</p>
-            <p><strong>Enlace CV:</strong> <a href="${d.enlaceCV}" target="_blank">Ver CV</a></p>
-          `;
-        } else {
-          resultadoDiv.textContent = result.message;
-        }
-
-      } catch(err) {
-        resultadoDiv.textContent = 'Error al consultar postulación: ' + err.message;
-      }
-    });
-  }
-
-  // -------------------
-  // 5) Simple scroll reveal
-  // -------------------
+  // 4) Animación reveal
   const reveals = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && reveals.length) {
     const io = new IntersectionObserver((entries) => {
@@ -137,9 +44,66 @@ document.addEventListener('DOMContentLoaded', function() {
     reveals.forEach(el => el.classList.add('active'));
   }
 
-});
+  // =============================
+  // NUEVA SECCIÓN: POSTULANTES
+  // =============================
 
+  const scriptURL = "https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec";
+
+  // Registro de postulante
+  const registroForm = document.getElementById('registroForm');
+  if (registroForm) {
+    registroForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(registroForm);
+
+      try {
+        const res = await fetch(scriptURL, {
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+        alert(data.message || "Registro exitoso. Revisa tu correo para tu clave.");
+        registroForm.reset();
+      } catch (err) {
+        alert("Error al registrar: " + err.message);
+      }
+    });
+  }
+
+  // Login de postulante
+  const loginForm = document.getElementById('loginForm');
+  const estadoDiv = document.getElementById('estadoResultado');
+
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(loginForm);
+
+      try {
+        const res = await fetch(scriptURL + "?action=login", {
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          estadoDiv.style.display = "block";
+          estadoDiv.innerHTML = `
+            <p><strong>Nombre:</strong> ${data.postulante.Nombre}</p>
+            <p><strong>DNI:</strong> ${data.postulante.DNI}</p>
+            <p><strong>Correo:</strong> ${data.postulante.Correo}</p>
+            <p><strong>Clave:</strong> ${data.postulante.Clave}</p>
+            <p><strong>Estado:</strong> ${data.postulante.Estado}</p>
+            <p><strong>Fecha de Registro:</strong> ${data.postulante.Fecha}</p>
+          `;
+        } else {
+          alert(data.message || "Credenciales incorrectas.");
+        }
+      } catch (err) {
+        alert("Error al consultar: " + err.message);
+      }
+    });
   }
 
 });
-
