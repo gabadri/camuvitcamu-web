@@ -223,6 +223,21 @@ h1, h2, h3 {
   color: var(--dark);
 }
 
+/* ---------- MENSAJES DEL FORMULARIO ---------- */
+#msg {
+  margin-top: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+
+#msg .alert-success {
+  color: var(--green);
+}
+
+#msg .alert-danger {
+  color: var(--red);
+}
+
 /* ---------- REGISTRO (extra estilo verde/rojo) ---------- */
 .registro-form h2 {
   color: var(--red);
@@ -266,5 +281,19 @@ h1, h2, h3 {
 
   .hero h1 {
     font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-card img {
+    height: 150px;
+  }
+
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero .subtitle {
+    font-size: 1rem;
   }
 }
