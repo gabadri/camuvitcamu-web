@@ -47,17 +47,19 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // 5) Registro de candidatos
-  const registerForm = document.getElementById('registerForm');
+  const registerForm = document.getElementById('registroForm'); // ID corregido
   if (registerForm) {
     registerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const msgDiv = document.getElementById('msg');
-      msgDiv.innerHTML = "Enviando...";
+      const msgDiv = document.getElementById('msg'); // contenedor para mensajes
+      if (msgDiv) msgDiv.innerHTML = "Enviando...";
 
-      const webAppUrl = "https://gabadri.github.io/camuvitcamu-web"; // 
+      // Cambia esta URL por la de tu WebApp de Apps Script
+      const webAppUrl = "https://script.google.com/macros/s/AKfycby6J8yH2GONYhMf-GGu72WSL1Hee1UJp29VxRMjo5CZxoim1tMX_CZfmZQQaDmid33YCQ/exec";
 
-      const formData = new URLSearchParams(new FormData(registerForm));
+      // FormData para enviar todos los campos, incluso archivos
+      const formData = new FormData(registerForm);
 
       try {
         const res = await fetch(webAppUrl, {
@@ -67,16 +69,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const json = await res.json();
 
         if (json.status === "success") {
-          msgDiv.innerHTML = `<div class="alert alert-success">${json.message}</div>`;
+          if (msgDiv) msgDiv.innerHTML = `<div class="alert alert-success">${json.message}</div>`;
           registerForm.reset();
         } else {
-          msgDiv.innerHTML = `<div class="alert alert-danger">${json.message}</div>`;
+          if (msgDiv) msgDiv.innerHTML = `<div class="alert alert-danger">${json.message}</div>`;
         }
       } catch (err) {
-        msgDiv.innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`;
+        if (msgDiv) msgDiv.innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`;
       }
     });
   }
 
 });
-
