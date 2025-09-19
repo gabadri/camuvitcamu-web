@@ -21,7 +21,7 @@
         <a href="#home">Inicio</a>
         <a href="#about">Quiénes Somos</a>
         <a href="#products">Productos</a>
-        <a href="#registro">Registro</a>
+        <a href="#trabaja">Trabaja con Nosotros</a>
         <a href="#contact">Contacto</a>
       </nav>
     </div>
@@ -100,18 +100,24 @@
       </div>
     </section>
 
-    <!-- REGISTRO DE CANDIDATOS -->
-    <section id="registro" class="section registro">
+    <!-- TRABAJA CON NOSOTROS -->
+    <section id="trabaja" class="section trabaja">
       <div class="container">
-        <h2 class="reveal">Registro de Candidatos</h2>
-        <form id="registroForm" class="registro-form reveal">
-          <input type="text" id="dni" name="dni" placeholder="DNI" required>
-          <input type="text" id="nombre" name="nombre" placeholder="Nombre completo" required>
-          <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
-          <button type="submit" class="btn btn-primary">Registrarme</button>
+        <h2 class="reveal">Trabaja con nosotros</h2>
+        <p class="reveal">Registra tu postulación y recibe tu clave de acceso.</p>
+
+        <form id="postulanteForm" class="contact-form reveal">
+          <input type="text" name="nombre" placeholder="Nombre completo" required>
+          <input type="text" name="dni" placeholder="DNI" required>
+          <input type="email" name="correo" placeholder="Correo" required>
+          <input type="text" name="carrera" placeholder="Carrera" required>
+          <input type="text" name="nivelEducativo" placeholder="Nivel educativo" required>
+          <label>Subir CV (PDF):</label>
+          <input type="file" name="cv" accept=".pdf" required>
+          <button type="submit" class="btn btn-primary">Registrar Postulación</button>
         </form>
-        <!-- Contenedor de mensajes -->
-        <div id="msg" style="margin-top:12px;"></div>
+
+        <div id="mensajePostulante" style="margin-top:15px;"></div>
       </div>
     </section>
 
