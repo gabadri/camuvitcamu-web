@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CamuVitCamu — Auténtico sabor de la Amazonía</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container nav">
+      <div class="logo">
+        <img src="img/logo.png" alt="CamuvitCamu logo" />
+      </div>
+
+      <button id="navToggle" class="nav-toggle" aria-label="Abrir menú">☰</button>
+
+      <nav id="navLinks" class="nav-links">
+        <a href="#home">Inicio</a>
+        <a href="#about">Quiénes Somos</a>
+        <a href="#products">Productos</a>
+        <a href="#contact">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-inner">
+        <h1 class="reveal">CamuVitCamu</h1>
+        <p class="subtitle reveal">Auténtico sabor de la Amazonía</p>
+        <a class="btn btn-primary reveal" href="#products">Ver productos</a>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section about">
+      <div class="container">
+        <h2 class="reveal">Quiénes Somos</h2>
+        <p class="reveal">
+          En <strong>CamuVitCamu</strong> llevamos lo mejor de la Amazonía a tu vida:
+          productos naturales a base de camu camu, elaborados con respeto por la biodiversidad y las comunidades locales.
+        </p>
+
+        <div class="info-grid">
+          <div class="info-card reveal">
+            <h3>Misión</h3>
+            <p>Ofrecer productos nutritivos y sostenibles que potencien la salud y el bienestar.</p>
+          </div>
+          <div class="info-card reveal">
+            <h3>Visión</h3>
+            <p>Ser referencia internacional en calidad y responsabilidad con la Amazonía.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products" class="section products">
+      <div class="container">
+        <h2 class="reveal">Nuestros Productos</h2>
+        <div class="product-grid">
+          <article class="product-card reveal">
+            <img src="img/licor.jpg" alt="Licor de Camu Camu">
+            <div class="product-body">
+              <h3>Licor de Camu Camu</h3>
+              <p>Una bebida de carácter intenso y aroma frutal, ideal para momentos de celebración.</p>
+            </div>
+          </article>
+
+          <article class="product-card reveal">
+            <img src="img/harina.jpg" alt="Harina de Camu Camu">
+            <div class="product-body">
+              <h3>Harina de Camu Camu</h3>
+              <p>Práctica presentación, ideal para batidos o jugos.</p>
+            </div>
+          </article>
+
+          <article class="product-card reveal">
+            <img src="img/Nectar.jpg" alt="Nectar de Camu Camu">
+            <div class="product-body">
+              <h3>Jugo Natural</h3>
+              <p>Refrescante, nutritivo y lleno de energía natural.</p>
+            </div>
+          </article>
+
+          <article class="product-card reveal">
+            <img src="img/macerado.jpg" alt="Macerado de Camu Camu">
+            <div class="product-body">
+              <h3>Macerado de Camu Camu</h3>
+              <p>Ideal para compartir en reuniones y celebraciones, disfrutándolo solo, en cócteles o acompañado de hielo.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section contact">
+      <div class="container">
+        <h2 class="reveal">Contáctanos</h2>
+        <form id="contactForm" class="contact-form reveal">
+          <input type="text" name="name" placeholder="Nombre" required>
+          <input type="email" name="email" placeholder="Correo" required>
+          <textarea name="message" placeholder="Mensaje" required></textarea>
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+
+        <div class="contact-info reveal">
+          <p>También puedes escribirnos por nuestras redes sociales o whatsapp.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> CamuVitCamu — Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
