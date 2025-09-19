@@ -4,9 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>CamuVitCamu — Auténtico sabor de la Amazonía</title>
-
-  <!-- Tu CSS -->
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -23,7 +21,7 @@
         <a href="#home">Inicio</a>
         <a href="#about">Quiénes Somos</a>
         <a href="#products">Productos</a>
-        <a href="#trabaja">Trabaja con Nosotros</a>
+        <a href="#work">Trabaja con Nosotros</a>
         <a href="#contact">Contacto</a>
       </nav>
     </div>
@@ -102,43 +100,39 @@
       </div>
     </section>
 
-    <!-- TRABAJA CON NOSOTROS -->
-    <section id="trabaja" class="section trabaja-section reveal">
+    <!-- WORK WITH US -->
+    <section id="work" class="section work">
       <div class="container">
-        <h2 class="section-title">Trabaja con Nosotros</h2>
-        <p>Postula a una vacante y revisa el estado de tu postulación.</p>
+        <h2 class="reveal">Trabaja con Nosotros</h2>
 
-        <div class="btn-group">
-          <!-- Abrimos las partes en la misma página (no usamos Bootstrap modal en este diseño) -->
-          <a class="btn btn-primary" href="#registroBox">Registrar Postulación</a>
-          <a class="btn btn-secondary" href="#loginBox">Consultar Estado</a>
+        <!-- Formulario de Registro -->
+        <form id="registerForm" class="work-form reveal">
+          <input type="text" name="nombre" placeholder="Nombre Completo" required>
+          <input type="text" name="dni" placeholder="DNI" required>
+          <input type="email" name="correo" placeholder="Correo" required>
+          <input type="text" name="carrera" placeholder="Carrera" required>
+          <input type="text" name="nivel" placeholder="Nivel Educativo" required>
+          <input type="url" name="cv" placeholder="Enlace a CV" required>
+          <button type="submit" class="btn btn-primary">Registrar Postulación</button>
+        </form>
+
+        <!-- Formulario de Login -->
+        <form id="loginForm" class="work-form reveal">
+          <input type="email" name="correo" placeholder="Correo" required>
+          <input type="password" name="clave" placeholder="Clave" required>
+          <button type="submit" class="btn btn-primary">Acceder</button>
+        </form>
+
+        <!-- Panel Usuario -->
+        <div id="userPanel" class="user-panel reveal" style="display:none;">
+          <h3>Estado de tu Postulación</h3>
+          <p><b>Nombre:</b> <span id="uNombre"></span></p>
+          <p><b>DNI:</b> <span id="uDni"></span></p>
+          <p><b>Correo:</b> <span id="uCorreo"></span></p>
+          <p><b>Clave:</b> <span id="uClave"></span></p>
+          <p><b>Estado:</b> <span id="uEstado"></span></p>
+          <p><b>Fecha de Registro:</b> <span id="uFecha"></span></p>
         </div>
-
-        <div id="registroBox" class="trabaja-form" style="margin-top:28px;">
-          <h3>Regístrate como postulante</h3>
-          <form id="registroForm">
-            <input type="text" name="nombre" placeholder="Nombre Completo" required>
-            <input type="text" name="dni" placeholder="DNI" required>
-            <input type="email" name="correo" placeholder="Correo" required>
-            <input type="text" name="carrera" placeholder="Carrera">
-            <input type="text" name="nivel" placeholder="Nivel Educativo">
-            <input type="url" name="cv" placeholder="Enlace a tu CV (Drive o URL)">
-            <button type="submit" class="btn btn-primary">Registrarme</button>
-            <p class="small" style="margin-top:10px;color:#666;">Al registrarte recibirás una clave por correo para consultar tu estado.</p>
-          </form>
-        </div>
-
-        <div id="loginBox" class="trabaja-estado" style="margin-top:28px;">
-          <h3>Consultar estado de postulación</h3>
-          <form id="loginForm">
-            <input type="email" name="correo" placeholder="Correo" required>
-            <input type="password" name="clave" placeholder="Clave" required>
-            <button type="submit" class="btn btn-primary">Consultar Estado</button>
-          </form>
-
-          <div id="estadoResultado" style="display:none; margin-top:12px;"></div>
-        </div>
-
       </div>
     </section>
 
