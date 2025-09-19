@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec";
-
   // 1) Toggle mobile menu
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
@@ -11,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
       navLinks.classList.toggle('active');
     });
 
+    // close menu when clicking a link (mobile)
     navLinks.addEventListener('click', (e) => {
       if (e.target.tagName === 'A') navLinks.classList.remove('active');
     });
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // 3) Contact form simple
+  // 3) Contact form submit
   const form = document.getElementById('contactForm');
   if (form) {
     form.addEventListener('submit', (e) => {
@@ -46,51 +45,65 @@ document.addEventListener('DOMContentLoaded', function() {
     reveals.forEach(el => el.classList.add('active'));
   }
 
-  // 5) Registro postulante
-  const registroForm = document.getElementById('registroPostulante');
-  if (registroForm) {
-    registroForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(registroForm).entries());
-      data.action = "register";
+  // 5) Trabaja con Nosotros
+  const registerForm = document.getElementById('workForm');
+  const statusForm = document.getElementById('checkStatusForm');
+  const statusResult = document.getElementById('statusResult');
 
-      const res = await fetch(SCRIPT_URL, {
-        method: "POST",
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec';
+
+  // Registro de nuevo postulante
+  if (registerForm) {
+    registerForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      const formData = new FormData(registerForm);
+      const data = {};
+      formData.forEach((value, key) => data[key] = value);
+
+      data.action = 'register'; // indicar registro
+      fetch(SCRIPT_URL, {
+        method: 'POST',
         body: JSON.stringify(data),
-      });
-      const json = await res.json();
-      alert(json.message);
-      if(json.success) registroForm.reset();
+      })
+      .then(res => res.json())
+      .then(res => {
+        alert(res.message || 'Postulación enviada. Revisa tu correo para la clave.');
+        registerForm.reset();
+      })
+      .catch(err => alert('Error al registrar postulante.'));
     });
   }
 
-  // 6) Login / consultar estado
-  const loginForm = document.getElementById('loginPostulante');
-  const estadoDiv = document.getElementById('estadoResultado');
-  if (loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
+  // Consulta de estado
+  if (statusForm) {
+    statusForm.addEventListener('submit', function(e){
       e.preventDefault();
-      const data = Object.fromEntries(new FormData(loginForm).entries());
-      data.action = "login";
+      const formData = new FormData(statusForm);
+      const data = {};
+      formData.forEach((value, key) => data[key] = value);
 
-      const res = await fetch(SCRIPT_URL, {
-        method: "POST",
+      data.action = 'checkStatus'; // indicar consulta
+      fetch(SCRIPT_URL, {
+        method: 'POST',
         body: JSON.stringify(data),
-      });
-      const json = await res.json();
-      if(json.success){
-        const d = json.data;
-        estadoDiv.innerHTML = `
-          <p><b>Nombre:</b> ${d.nombre}</p>
-          <p><b>DNI:</b> ${d.dni}</p>
-          <p><b>Correo:</b> ${d.correo}</p>
-          <p><b>Clave:</b> ${d.clave}</p>
-          <p><b>Estado:</b> ${d.estado}</p>
-          <p><b>Fecha de Registro:</b> ${new Date(d.fecha).toLocaleDateString()}</p>
-        `;
-      } else {
-        estadoDiv.textContent = json.message;
-      }
+      })
+      .then(res => res.json())
+      .then(res => {
+        if(res.success){
+          statusResult.innerHTML = `
+            <div class="card">
+              <p><strong>Nombre:</strong> ${res.nombre}</p>
+              <p><strong>DNI:</strong> ${res.dni}</p>
+              <p><strong>Correo:</strong> ${res.email}</p>
+              <p><strong>Clave:</strong> ${res.clave}</p>
+              <p><strong>Estado:</strong> ${res.estado}</p>
+              <p><strong>Fecha de Registro:</strong> ${res.fecha}</p>
+            </div>`;
+        } else {
+          statusResult.innerHTML = `<p>${res.message || 'No se encontró el postulante.'}</p>`;
+        }
+      })
+      .catch(err => statusResult.innerHTML = `<p>Error al consultar estado.</p>`);
     });
   }
 
