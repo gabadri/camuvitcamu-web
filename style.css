@@ -232,6 +232,37 @@ body {
   padding:16px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
+/* ---------- WORK / TAB ---------- */
+.tabs {
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+}
+.tab-btn {
+  padding:8px 16px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  background: var(--green);
+  color: var(--white);
+  font-weight:600;
+  transition: background .3s ease;
+}
+.tab-btn.active {
+  background: var(--red);
+}
+.tab-pane { display:none; }
+.tab-pane.active { display:flex; flex-direction:column; gap:12px; }
+#statusResult {
+  margin-top:15px;
+  padding:12px;
+  background: var(--white);
+  border-radius:8px;
+  box-shadow: 0 8px 20px rgba(13,12,11,0.04);
+  font-weight:600;
+  color: var(--green);
+}
+#statusResult.error { color: var(--red); }
 
 /* ---------- FOOTER ---------- */
 .site-footer{
@@ -269,3 +300,4 @@ body {
   .hero-inner .subtitle { font-size:14px; }
   .product-card img { height:160px; }
 }
+
