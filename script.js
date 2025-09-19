@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-  // -----------------------------
   // 1) Toggle mobile menu
-  // -----------------------------
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
 
@@ -16,77 +14,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // -----------------------------
   // 2) Year in footer
-  // -----------------------------
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // -----------------------------
-  // 3) Contact form (simple)
-  // -----------------------------
-  const contactForm = document.getElementById('contactForm');
-  if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+  // 3) Contact form submit (simple)
+  const form = document.getElementById('contactForm');
+  if (form) {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
       alert('Gracias por contactarnos. Te responderemos pronto.');
-      contactForm.reset();
+      form.reset();
     });
   }
 
-  // -----------------------------
-  // 4) Registro de candidatos
-  // -----------------------------
-  const registroForm = document.getElementById('registroForm');
-  if (registroForm) {
-    registroForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const msgDiv = document.getElementById('msg') || document.createElement('div');
-      if (!msgDiv.id) msgDiv.id = 'msg';
-      registroForm.parentNode.insertBefore(msgDiv, registroForm.nextSibling);
-
-      msgDiv.innerHTML = 'Enviando...';
-
-      // URL de tu Web App de Google Apps Script
-      const webAppUrl = "https://script.google.com/macros/s/AKfycbzPAltwqmkEcfg5Lbs5xYcJ84BmbNt8Ogd3cLkbqhdQKyiYPfuUbWGp4pAWNeycK_Hg8w/exec";
-
-      // Crear objeto de datos
-      const data = {
-        dni: document.getElementById('dni').value.trim(),
-        nombre: document.getElementById('nombre').value.trim(),
-        email: document.getElementById('email').value.trim()
-      };
-
-      try {
-        const res = await fetch(webAppUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        });
-
-        const json = await res.json();
-
-        if (json.status === 'success') {
-          msgDiv.innerHTML = `<div class="alert alert-success">${json.message}</div>`;
-          registroForm.reset();
-        } else {
-          msgDiv.innerHTML = `<div class="alert alert-danger">${json.message}</div>`;
-        }
-
-      } catch (err) {
-        console.error('Error al registrar:', err);
-        msgDiv.innerHTML = `<div class="alert alert-danger">Ocurrió un error. Intenta de nuevo.</div>`;
-      }
-
-    });
-  }
-
-  // -----------------------------
-  // 5) Simple scroll reveal
-  // -----------------------------
+  // 4) Simple scroll reveal using IntersectionObserver
   const reveals = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && reveals.length) {
     const io = new IntersectionObserver((entries) => {
@@ -102,9 +44,46 @@ document.addEventListener('DOMContentLoaded', function() {
     reveals.forEach(el => el.classList.add('active'));
   }
 
-});
+  // 5) Enviar formulario de postulante
+  const postulanteForm = document.getElementById('postulanteForm');
+  if (postulanteForm) {
+    postulanteForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(postulanteForm);
+      const archivo = formData.get('cv');
+
+      const base64 = await archivo.arrayBuffer();
+      const base64String = btoa(
+        new Uint8Array(base64)
+          .reduce((data, byte) => data + String.fromCharCode(byte), '')
+      );
+
+      const dataToSend = {
+        nombre: formData.get('nombre'),
+        dni: formData.get('dni'),
+        correo: formData.get('correo'),
+        carrera: formData.get('carrera'),
+        nivelEducativo: formData.get('nivelEducativo'),
+        cvBase64: base64String,
+        cvType: archivo.type,
+        cvName: archivo.name
+      };
+
+      const url = 'https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec';
+
+      try {
+        const resp = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(dataToSend)
+        });
+        const result = await resp.json();
+        document.getElementById('mensajePostulante').textContent = result.message;
+        if(result.success) postulanteForm.reset();
+      } catch(err) {
+        document.getElementById('mensajePostulante').textContent = 'Error al enviar la postulación.';
+      }
+    });
+  }
 
 });
-
-
-
