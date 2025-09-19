@@ -104,23 +104,13 @@
     <section id="registro" class="section registro">
       <div class="container">
         <h2 class="reveal">Registro de Candidatos</h2>
-        <form id="registroForm" class="registro-form reveal"
-              action="https://script.google.com/macros/s/AKfycby6J8yH2GONYhMf-GGu72WSL1Hee1UJp29VxRMjo5CZxoim1tMX_CZfmZQQaDmid33YCQ/exec" method="POST" enctype="multipart/form-data">
+        <form id="registroForm" class="registro-form reveal" method="POST" enctype="multipart/form-data">
           <input type="text" id="dni" name="dni" placeholder="DNI" required>
           <input type="text" id="nombre" name="nombre" placeholder="Nombre completo" required>
           <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
-
-          <label>Sube tu DNI:</label>
-          <input type="file" name="dniFile" required>
-
-          <label>Currículum Vitae:</label>
-          <input type="file" name="cvFile" required>
-
-          <label>Certificados:</label>
-          <input type="file" name="certFile">
-
-          <label>Fotografía:</label>
-          <input type="file" name="fotoFile">
+          
+          <!-- Contenedor para mensajes de éxito/error -->
+          <div id="msg"></div>
 
           <button type="submit" class="btn btn-primary">Registrarme</button>
         </form>
@@ -155,4 +145,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
