@@ -1,71 +1,92 @@
-document.addEventListener("DOMContentLoaded", function(){
-  // Menu mobile
-  const navToggle = document.getElementById("navToggle");
-  const navLinks = document.getElementById("navLinks");
-  if(navToggle){
-    navToggle.addEventListener("click", ()=> navLinks.classList.toggle("active"));
-  }
+document.addEventListener('DOMContentLoaded', function () {
 
+  // ====================
   // Footer año
-  const yearEl = document.getElementById("year");
-  if(yearEl){ yearEl.textContent = new Date().getFullYear(); }
+  // ====================
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // Contacto
-  const contactForm = document.getElementById("contactForm");
-  if(contactForm){
-    contactForm.addEventListener("submit", e=>{
+  // Contacto simple
+  const form = document.getElementById('contactForm');
+  if (form) {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
-      alert("Gracias por contactarnos. Te responderemos pronto.");
-      contactForm.reset();
+      alert('Gracias por contactarnos. Te responderemos pronto.');
+      form.reset();
     });
   }
 
-  // Google Apps Script
-  const scriptURL = "https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec";
+  // ====================
+  // TRABAJA CON NOSOTROS
+  // ====================
+  const registroForm = document.getElementById('registroForm');
+  const loginForm = document.getElementById('loginForm');
+  const estadoDiv = document.getElementById('estadoPostulacion');
 
-  const registerForm = document.getElementById("registerForm");
-  const loginForm = document.getElementById("loginForm");
-  const userPanel = document.getElementById("userPanel");
+  const API_URL = "https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec";
 
-  if(registerForm){
-    registerForm.addEventListener("submit", async(e)=>{
-      e.preventDefault();
-      const formData = new FormData(registerForm);
-      formData.append("action","register");
+  // Registro
+  registroForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-      try{
-        const res = await fetch(scriptURL, { method:"POST", body:formData });
-        const data = await res.json();
-        alert(data.message);
-        if(data.success){ registerForm.reset(); }
-      } catch(err){ alert("Error en el registro"); }
-    });
-  }
+    const data = {
+      action: "registrar",
+      nombre: document.getElementById("nombre").value,
+      dni: document.getElementById("dni").value,
+      correo: document.getElementById("correo").value,
+      carrera: document.getElementById("carrera").value,
+      nivel: document.getElementById("nivel").value,
+      cv: document.getElementById("cv").value
+    };
 
-  if(loginForm){
-    loginForm.addEventListener("submit", async(e)=>{
-      e.preventDefault();
-      const formData = new FormData(loginForm);
-      formData.append("action","login");
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      alert(result.message);
+      registroForm.reset();
+    } catch (err) {
+      alert("Error al registrar: " + err);
+    }
+  });
 
-      try{
-        const res = await fetch(scriptURL, { method:"POST", body:formData });
-        const data = await res.json();
-        if(data.success){
-          loginForm.style.display="none";
-          registerForm.style.display="none";
-          userPanel.style.display="block";
+  // Login
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-          document.getElementById("uNombre").textContent = data.data.nombre;
-          document.getElementById("uDni").textContent = data.data.dni;
-          document.getElementById("uCorreo").textContent = data.data.correo;
-          document.getElementById("uClave").textContent = data.data.clave;
-          document.getElementById("uEstado").textContent = data.data.estado;
-          document.getElementById("uFecha").textContent = data.data.fecha;
-        } else {
-          alert(data.message);
-        }
-      } catch(err){ alert("Error en el login"); }
-    });
-  }
+    const data = {
+      action: "login",
+      correo: document.getElementById("loginCorreo").value,
+      clave: document.getElementById("loginClave").value
+    };
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+
+      if (result.success) {
+        estadoDiv.style.display = "block";
+        estadoDiv.innerHTML = `
+          <h3>Estado de tu postulación</h3>
+          <p><b>Nombre:</b> ${result.data.nombre}</p>
+          <p><b>DNI:</b> ${result.data.dni}</p>
+          <p><b>Correo:</b> ${result.data.correo}</p>
+          <p><b>Clave:</b> ${result.data.clave}</p>
+          <p><b>Estado:</b> ${result.data.estado}</p>
+          <p><b>Fecha Registro:</b> ${result.data.fecha}</p>
+        `;
+        loginForm.reset();
+      } else {
+        alert(result.message);
+      }
+    } catch (err) {
+      alert("Error al iniciar sesión: " + err);
+    }
+  });
+
 });
