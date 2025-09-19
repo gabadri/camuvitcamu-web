@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     reveals.forEach(el => el.classList.add('active'));
   }
 
-  // 5) Enviar formulario de postulante
+  // 5) Formulario de registro de postulante
   const postulanteForm = document.getElementById('postulanteForm');
   if (postulanteForm) {
     postulanteForm.addEventListener('submit', async (e) => {
@@ -55,11 +55,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const base64 = await archivo.arrayBuffer();
       const base64String = btoa(
-        new Uint8Array(base64)
-          .reduce((data, byte) => data + String.fromCharCode(byte), '')
+        new Uint8Array(base64).reduce((data, byte) => data + String.fromCharCode(byte), '')
       );
 
       const dataToSend = {
+        action: "registrar",
         nombre: formData.get('nombre'),
         dni: formData.get('dni'),
         correo: formData.get('correo'),
@@ -82,6 +82,49 @@ document.addEventListener('DOMContentLoaded', function() {
         if(result.success) postulanteForm.reset();
       } catch(err) {
         document.getElementById('mensajePostulante').textContent = 'Error al enviar la postulación.';
+      }
+    });
+  }
+
+  // 6) Formulario de acceso de postulantes
+  const loginForm = document.getElementById('loginForm');
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(loginForm);
+      const dataToSend = {
+        action: "acceso",
+        correo: formData.get('correo'),
+        clave: formData.get('clave')
+      };
+
+      const url = 'https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec';
+
+      try {
+        const resp = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(dataToSend)
+        });
+        const result = await resp.json();
+        const resultadoDiv = document.getElementById('resultadoAcceso');
+
+        if(result.success) {
+          const d = result.data;
+          resultadoDiv.innerHTML = `
+            <p><strong>Nombre:</strong> ${d.nombre}</p>
+            <p><strong>DNI:</strong> ${d.dni}</p>
+            <p><strong>Correo:</strong> ${d.correo}</p>
+            <p><strong>Clave:</strong> ${d.clave}</p>
+            <p><strong>Estado:</strong> ${d.estado}</p>
+            <p><strong>Fecha de Registro:</strong> ${new Date(d.fechaRegistro).toLocaleDateString()}</p>
+          `;
+        } else {
+          resultadoDiv.textContent = result.message;
+        }
+
+      } catch(err) {
+        document.getElementById('resultadoAcceso').textContent = 'Error al consultar postulación.';
       }
     });
   }
