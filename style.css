@@ -1,64 +1,235 @@
-/* ===== General ===== */
+/* =======================
+   ESTILOS ORIGINALES
+   ======================= */
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
+  font-family: Arial, sans-serif;
   line-height: 1.6;
+  color: #333;
+  background-color: #fff;
 }
 
-/* ===== Navbar ===== */
-.navbar {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-.navbar-brand {
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-
-/* ===== Hero ===== */
+/* Header */
 header {
-  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  background: #4CAF50;
+  color: #fff;
+  padding: 1rem 0;
 }
+
+.container {
+  width: 90%;
+  margin: auto;
+  overflow: hidden;
+}
+
 header h1 {
-  font-size: 2.5rem;
-}
-header p {
-  font-size: 1.2rem;
+  float: left;
 }
 
-/* ===== Cards / Formularios ===== */
-form.card {
-  border-radius: 12px;
-  border: none;
+header nav {
+  float: right;
 }
-form.card .form-control,
-form.card .form-select {
-  border-radius: 8px;
-  padding: 10px;
+
+header ul {
+  list-style: none;
 }
-form.card button {
-  border-radius: 8px;
+
+header ul li {
+  display: inline;
+  margin-left: 20px;
+}
+
+header ul li a {
+  color: #fff;
+  text-decoration: none;
   font-weight: bold;
-  padding: 12px;
-  transition: background 0.3s ease;
-}
-form.card button:hover {
-  opacity: 0.9;
 }
 
-/* ===== Resultados acceso ===== */
-#resultadoAcceso {
-  font-size: 0.95rem;
-  background-color: #fdfdfd;
-  border: 1px solid #e1e1e1;
-  border-radius: 10px;
-}
-#resultadoAcceso strong {
-  color: #0077b6;
+#navToggle {
+  display: none;
+  cursor: pointer;
+  font-size: 24px;
 }
 
-/* ===== Footer ===== */
+@media (max-width: 768px) {
+  header h1 {
+    float: none;
+    text-align: center;
+  }
+
+  header nav {
+    float: none;
+  }
+
+  #navToggle {
+    display: block;
+  }
+
+  #navLinks {
+    display: none;
+    flex-direction: column;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  #navLinks.active {
+    display: flex;
+  }
+
+  header ul li {
+    display: block;
+    margin: 10px 0;
+  }
+}
+
+/* Hero */
+#hero {
+  background: url('https://picsum.photos/id/1015/1200/400') no-repeat center center/cover;
+  color: #fff;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#hero h2 {
+  font-size: 48px;
+}
+
+/* Secciones */
+section {
+  padding: 2rem 0;
+}
+
+section h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Productos */
+#productos .producto {
+  background: #f4f4f4;
+  margin: 15px;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Contacto */
+#contact form {
+  max-width: 600px;
+  margin: auto;
+}
+
+#contact input, #contact textarea, #contact button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+#contact button {
+  background: #4CAF50;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+#contact button:hover {
+  background: #45a049;
+}
+
+/* Footer */
 footer {
-  font-size: 0.9rem;
-  background-color: #222;
+  text-align: center;
+  padding: 1rem;
+  background: #333;
+  color: #fff;
+  margin-top: 2rem;
+}
+
+/* Animaciones reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =======================
+   ESTILOS NUEVOS
+   ======================= */
+
+/* Sección Trabaja con nosotros */
+#trabaja {
+  background: #f9f9f9;
+  padding: 3rem 1rem;
+}
+
+#trabaja h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.trabaja-form, .trabaja-estado {
+  max-width: 500px;
+  margin: 1.5rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.trabaja-form label, 
+.trabaja-estado label {
+  font-weight: bold;
+  margin-top: 10px;
+  display: block;
+}
+
+.trabaja-form input, 
+.trabaja-estado input,
+.trabaja-form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.trabaja-form button,
+.trabaja-estado button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background: #4CAF50;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.trabaja-form button:hover,
+.trabaja-estado button:hover {
+  background: #45a049;
+}
+
+/* Estado del postulante */
+#estadoResultado {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #e7f5e6;
+  border: 1px solid #b6e0b5;
+  border-radius: 5px;
 }
