@@ -47,12 +47,14 @@ body {
   height:72px;
 }
 
+/* logo */
 .logo img {
   height:52px;
   width:auto;
   display:block;
 }
 
+/* nav links */
 .nav-links {
   display:flex;
   gap:22px;
@@ -71,6 +73,7 @@ body {
   color: var(--beige);
 }
 
+/* mobile toggle */
 .nav-toggle {
   display:none;
   background:transparent;
@@ -92,12 +95,14 @@ body {
   background: url("img/hero.jpg") center / cover no-repeat;
 }
 
+/* dark overlay */
 .hero-overlay{
   position:absolute;
   inset:0;
   background: linear-gradient(180deg, rgba(46,125,50,0.35) 0%, rgba(0,0,0,0.45) 100%);
 }
 
+/* hero content */
 .hero-inner{
   position:relative;
   z-index:2;
@@ -146,6 +151,7 @@ body {
   background: transparent;
 }
 
+/* headings */
 .section h2{
   font-size: 28px;
   margin-bottom: 18px;
@@ -168,7 +174,7 @@ body {
 }
 .info-card h3{ color: var(--green); margin-bottom:8px; }
 
-/* PRODUCTS */
+/* ---------- PRODUCTS ---------- */
 .product-grid {
   display:grid;
   grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
@@ -199,7 +205,7 @@ body {
   box-shadow: 0 20px 40px rgba(13,12,11,0.12);
 }
 
-/* CONTACT */
+/* ---------- CONTACT ---------- */
 .contact-form{
   max-width:640px;
   margin: 0 auto;
@@ -219,13 +225,17 @@ body {
   border:0;
 }
 
-/* TRABAJA CON NOSOTROS */
-.trabaja input, .trabaja button {
-  font-size:14px;
+/* ---------- TRABAJA CON NOSOTROS ---------- */
+.trabaja-forms input{
+  border-radius:10px !important;
 }
-.trabaja h4 { margin-bottom:12px; color: var(--green); }
+#estadoResultado{
+  font-weight:600;
+  margin-top:10px;
+  color: var(--red);
+}
 
-/* FOOTER */
+/* ---------- FOOTER ---------- */
 .site-footer{
   background: var(--brown);
   color: var(--white);
@@ -234,7 +244,7 @@ body {
 }
 .site-footer p{ margin:0; font-size:14px; }
 
-/* REVEAL ANIMATIONS */
+/* ---------- REVEAL ANIMATIONS ---------- */
 .reveal{
   opacity:0;
   transform: translateY(10px);
@@ -245,7 +255,7 @@ body {
   transform: translateY(0);
 }
 
-/* RESPONSIVE */
+/* ---------- RESPONSIVE ---------- */
 @media (max-width: 900px){
   .nav-links { display:none; position:absolute; right:18px; top:70px; background: rgba(11,11,11,0.9); padding:12px; border-radius:10px; flex-direction:column; gap:10px; }
   .nav-links a { color: var(--white); }
