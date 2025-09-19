@@ -1,22 +1,97 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Menu móvil
+
+  // -----------------------------
+  // 1) Toggle mobile menu
+  // -----------------------------
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
+
   if (navToggle && navLinks) {
-    navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
-    navLinks.addEventListener('click', e => { if(e.target.tagName==='A') navLinks.classList.remove('active'); });
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    navLinks.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') navLinks.classList.remove('active');
+    });
   }
 
-  // Año en footer
+  // -----------------------------
+  // 2) Year in footer
+  // -----------------------------
   const yearEl = document.getElementById('year');
-  if(yearEl) yearEl.textContent = new Date().getFullYear();
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // Scroll reveal
+  // -----------------------------
+  // 3) Contact form (simple)
+  // -----------------------------
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Gracias por contactarnos. Te responderemos pronto.');
+      contactForm.reset();
+    });
+  }
+
+  // -----------------------------
+  // 4) Registro de candidatos
+  // -----------------------------
+  const registroForm = document.getElementById('registroForm');
+  if (registroForm) {
+    registroForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const msgDiv = document.getElementById('msg') || document.createElement('div');
+      if (!msgDiv.id) msgDiv.id = 'msg';
+      registroForm.parentNode.insertBefore(msgDiv, registroForm.nextSibling);
+
+      msgDiv.innerHTML = 'Enviando...';
+
+      // URL de tu Web App de Google Apps Script
+      const webAppUrl = "https://script.google.com/macros/s/AKfycbzPAltwqmkEcfg5Lbs5xYcJ84BmbNt8Ogd3cLkbqhdQKyiYPfuUbWGp4pAWNeycK_Hg8w/exec";
+
+      // Crear objeto de datos
+      const data = {
+        dni: document.getElementById('dni').value.trim(),
+        nombre: document.getElementById('nombre').value.trim(),
+        email: document.getElementById('email').value.trim()
+      };
+
+      try {
+        const res = await fetch(webAppUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        const json = await res.json();
+
+        if (json.status === 'success') {
+          msgDiv.innerHTML = `<div class="alert alert-success">${json.message}</div>`;
+          registroForm.reset();
+        } else {
+          msgDiv.innerHTML = `<div class="alert alert-danger">${json.message}</div>`;
+        }
+
+      } catch (err) {
+        console.error('Error al registrar:', err);
+        msgDiv.innerHTML = `<div class="alert alert-danger">Ocurrió un error. Intenta de nuevo.</div>`;
+      }
+
+    });
+  }
+
+  // -----------------------------
+  // 5) Simple scroll reveal
+  // -----------------------------
   const reveals = document.querySelectorAll('.reveal');
-  if('IntersectionObserver' in window && reveals.length) {
-    const io = new IntersectionObserver(entries => {
+  if ('IntersectionObserver' in window && reveals.length) {
+    const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if(entry.isIntersecting) {
+        if (entry.isIntersecting) {
           entry.target.classList.add('active');
           io.unobserve(entry.target);
         }
@@ -27,29 +102,9 @@ document.addEventListener('DOMContentLoaded', function() {
     reveals.forEach(el => el.classList.add('active'));
   }
 
-  // Registro de candidatos
-  const registerForm = document.getElementById('registroForm');
-  if(registerForm){
-    registerForm.addEventListener('submit', async e=>{
-      e.preventDefault();
-      const msgDiv = document.getElementById('msg');
-      msgDiv.innerHTML = "Enviando...";
-      const webAppUrl = "https://script.google.com/macros/s/AKfycbzPAltwqmkEcfg5Lbs5xYcJ84BmbNt8Ogd3cLkbqhdQKyiYPfuUbWGp4pAWNeycK_Hg8w/exec";
-      const formData = new URLSearchParams(new FormData(registerForm));
-      try{
-        const res = await fetch(webAppUrl,{method:"POST",body:formData});
-        const json = await res.json();
-        if(json.status==="success"){
-          msgDiv.innerHTML = `<div class="alert alert-success">${json.message}</div>`;
-          registerForm.reset();
-        } else {
-          msgDiv.innerHTML = `<div class="alert alert-danger">${json.message}</div>`;
-        }
-      }catch(err){
-        msgDiv.innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`;
-      }
-    });
-  }
 });
+
+});
+
 
 
