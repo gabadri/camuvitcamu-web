@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const msgDiv = document.getElementById('msg');
       msgDiv.innerHTML = "Enviando...";
 
-      const webAppUrl = "TU_WEB_APP_URL"; // 👉 pega aquí la URL de tu Web App
+      const webAppUrl = "https://gabadri.github.io/camuvitcamu-web"; // 
 
       const formData = new URLSearchParams(new FormData(registerForm));
 
@@ -79,3 +79,4 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
 });
+
