@@ -3,112 +3,113 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bolsa de Trabajo</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <title>CamuVitCamu</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <!-- Header -->
+  <header>
     <div class="container">
-      <a class="navbar-brand" href="#">Mi Empresa</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div id="navbarNav" class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#postulacion">Postúlate</a></li>
-          <li class="nav-item"><a class="nav-link" href="#acceso">Acceso Postulantes</a></li>
+      <h1>CamuVitCamu</h1>
+      <nav>
+        <span id="navToggle">☰</span>
+        <ul id="navLinks">
+          <li><a href="#hero">Inicio</a></li>
+          <li><a href="#productos">Productos</a></li>
+          <li><a href="#contact">Contacto</a></li>
+          <li><a href="#trabaja">Trabaja con nosotros</a></li>
         </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <header class="bg-primary text-white text-center py-5">
-    <div class="container">
-      <h1 class="fw-bold">Únete a nuestro equipo</h1>
-      <p class="lead">Postula fácilmente en línea y consulta tu estado</p>
+      </nav>
     </div>
   </header>
 
-  <!-- Sección Postulación -->
-  <section id="postulacion" class="py-5">
+  <!-- Hero -->
+  <section id="hero">
+    <h2>Bienvenido a CamuVitCamu</h2>
+  </section>
+
+  <!-- Productos -->
+  <section id="productos" class="reveal">
     <div class="container">
-      <h2 class="text-center mb-4">Formulario de Postulación</h2>
-      <form id="formPostulacion" class="card shadow p-4 mx-auto" style="max-width: 600px;">
-        
-        <div class="mb-3">
-          <label for="nombre" class="form-label">Nombre completo</label>
-          <input type="text" name="nombre" class="form-control" required>
-        </div>
+      <h2>Nuestros Productos</h2>
+      <div class="producto">Producto 1</div>
+      <div class="producto">Producto 2</div>
+      <div class="producto">Producto 3</div>
+    </div>
+  </section>
 
-        <div class="mb-3">
-          <label for="dni" class="form-label">DNI</label>
-          <input type="text" name="dni" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="correo" class="form-label">Correo electrónico</label>
-          <input type="email" name="correo" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="carrera" class="form-label">Carrera / Profesión</label>
-          <input type="text" name="carrera" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="nivelEducativo" class="form-label">Nivel Educativo</label>
-          <select name="nivelEducativo" class="form-select" required>
-            <option value="">Seleccione...</option>
-            <option>Secundaria</option>
-            <option>Técnico</option>
-            <option>Universitario</option>
-            <option>Postgrado</option>
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label for="cv" class="form-label">Subir CV (PDF)</label>
-          <input type="file" name="cv" class="form-control" accept=".pdf" required>
-        </div>
-
-        <button type="submit" class="btn btn-primary w-100">Enviar Postulación</button>
+  <!-- Contacto -->
+  <section id="contact" class="reveal">
+    <div class="container">
+      <h2>Contáctanos</h2>
+      <form id="contactForm">
+        <input type="text" placeholder="Tu nombre" required>
+        <input type="email" placeholder="Tu correo" required>
+        <textarea placeholder="Tu mensaje" required></textarea>
+        <button type="submit">Enviar</button>
       </form>
     </div>
   </section>
 
-  <!-- Sección Acceso -->
-  <section id="acceso" class="py-5 bg-light">
+  <!-- Trabaja con nosotros -->
+  <section id="trabaja" class="reveal">
     <div class="container">
-      <h2 class="text-center mb-4">Acceso de Postulantes</h2>
-      <form id="formAcceso" class="card shadow p-4 mx-auto" style="max-width: 500px;">
-        
-        <div class="mb-3">
-          <label for="correoAcceso" class="form-label">Correo electrónico</label>
-          <input type="email" name="correo" class="form-control" required>
-        </div>
+      <h2>Trabaja con nosotros</h2>
 
-        <div class="mb-3">
-          <label for="clave" class="form-label">Clave</label>
-          <input type="text" name="clave" class="form-control" required>
-        </div>
+      <!-- Registro de postulante -->
+      <div class="trabaja-form">
+        <h3>Regístrate como postulante</h3>
+        <form id="registroForm">
+          <label>Nombre Completo</label>
+          <input type="text" name="nombre" required>
 
-        <button type="submit" class="btn btn-success w-100">Consultar</button>
-      </form>
+          <label>DNI</label>
+          <input type="text" name="dni" required>
 
-      <div id="resultadoAcceso" class="mt-4 p-3 bg-white border rounded"></div>
+          <label>Correo</label>
+          <input type="email" name="correo" required>
+
+          <label>Carrera</label>
+          <input type="text" name="carrera" required>
+
+          <label>Nivel Educativo</label>
+          <select name="nivel" required>
+            <option value="">Seleccione</option>
+            <option value="Técnico">Técnico</option>
+            <option value="Universitario">Universitario</option>
+            <option value="Posgrado">Posgrado</option>
+          </select>
+
+          <label>Enlace a tu CV</label>
+          <input type="url" name="cv" required>
+
+          <button type="submit">Registrarme</button>
+        </form>
+      </div>
+
+      <!-- Acceso para ver estado -->
+      <div class="trabaja-estado">
+        <h3>Consultar estado de postulación</h3>
+        <form id="loginForm">
+          <label>Correo</label>
+          <input type="email" name="correo" required>
+
+          <label>Clave</label>
+          <input type="password" name="clave" required>
+
+          <button type="submit">Consultar Estado</button>
+        </form>
+
+        <div id="estadoResultado" style="display:none;"></div>
+      </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-3">
-    <p class="mb-0">© <span id="year"></span> Mi Empresa - Todos los derechos reservados</p>
+  <footer>
+    <p>&copy; <span id="year"></span> CamuVitCamu. Todos los derechos reservados.</p>
   </footer>
 
   <script src="script.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
