@@ -8,17 +8,16 @@ document.addEventListener('DOMContentLoaded', function() {
     navToggle.addEventListener('click', () => {
       navLinks.classList.toggle('active');
     });
-
     navLinks.addEventListener('click', (e) => {
       if (e.target.tagName === 'A') navLinks.classList.remove('active');
     });
   }
 
-  // 2) Año dinámico en footer
+  // 2) Year in footer
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // 3) Formulario de contacto
+  // 3) Contact form submit
   const form = document.getElementById('contactForm');
   if (form) {
     form.addEventListener('submit', (e) => {
@@ -28,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // 4) Animación reveal
+  // 4) Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && reveals.length) {
     const io = new IntersectionObserver((entries) => {
@@ -44,10 +43,9 @@ document.addEventListener('DOMContentLoaded', function() {
     reveals.forEach(el => el.classList.add('active'));
   }
 
-  // =============================
-  // NUEVA SECCIÓN: POSTULANTES
-  // =============================
-
+  // =======================
+  // TRABAJA CON NOSOTROS
+  // =======================
   const scriptURL = "https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec";
 
   // Registro de postulante
@@ -55,15 +53,15 @@ document.addEventListener('DOMContentLoaded', function() {
   if (registroForm) {
     registroForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const formData = new FormData(registroForm);
-
+      const fd = new FormData(registroForm);
+      // We don't set 'action' here; Apps Script default will treat as register
       try {
         const res = await fetch(scriptURL, {
           method: "POST",
-          body: formData
+          body: fd
         });
         const data = await res.json();
-        alert(data.message || "Registro exitoso. Revisa tu correo para tu clave.");
+        alert(data.message || "Registro exitoso. Revisa tu correo.");
         registroForm.reset();
       } catch (err) {
         alert("Error al registrar: " + err.message);
@@ -78,27 +76,33 @@ document.addEventListener('DOMContentLoaded', function() {
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const formData = new FormData(loginForm);
+      const fd = new FormData(loginForm);
 
       try {
+        // send action=login via query parameter so Apps Script picks it as login
         const res = await fetch(scriptURL + "?action=login", {
           method: "POST",
-          body: formData
+          body: fd
         });
         const data = await res.json();
 
         if (data.success) {
           estadoDiv.style.display = "block";
+          const p = data.postulante;
           estadoDiv.innerHTML = `
-            <p><strong>Nombre:</strong> ${data.postulante.Nombre}</p>
-            <p><strong>DNI:</strong> ${data.postulante.DNI}</p>
-            <p><strong>Correo:</strong> ${data.postulante.Correo}</p>
-            <p><strong>Clave:</strong> ${data.postulante.Clave}</p>
-            <p><strong>Estado:</strong> ${data.postulante.Estado}</p>
-            <p><strong>Fecha de Registro:</strong> ${data.postulante.Fecha}</p>
+            <p><strong>Nombre:</strong> ${p.Nombre}</p>
+            <p><strong>DNI:</strong> ${p.DNI}</p>
+            <p><strong>Correo:</strong> ${p.Correo}</p>
+            <p><strong>Clave:</strong> ${p.Clave}</p>
+            <p><strong>Estado:</strong> ${p.Estado}</p>
+            <p><strong>Fecha de Registro:</strong> ${p.Fecha}</p>
+            <p><strong>Carrera:</strong> ${p.Carrera || '-'}</p>
+            <p><strong>Nivel Educativo:</strong> ${p.Nivel || '-'}</p>
+            <p><strong>Enlace CV:</strong> ${p.CV ? `<a href="${p.CV}" target="_blank">Ver CV</a>` : '-'}</p>
           `;
         } else {
-          alert(data.message || "Credenciales incorrectas.");
+          estadoDiv.style.display = "block";
+          estadoDiv.innerHTML = `<p style="color:red;">${data.message || "Credenciales incorrectas."}</p>`;
         }
       } catch (err) {
         alert("Error al consultar: " + err.message);
@@ -107,4 +111,3 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
 });
-
