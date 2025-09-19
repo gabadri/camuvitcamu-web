@@ -189,8 +189,8 @@ body {
   transition: transform .28s ease, box-shadow .28s ease;
 }
 .product-card img{
-  width:120%;
-  height:400px;
+  width:80%;
+  height:180px;
   object-fit:cover;
   display:block;
 }
@@ -300,6 +300,7 @@ body {
   .hero-inner .subtitle { font-size:14px; }
   .product-card img { height:160px; }
 }
+
 
 
 
