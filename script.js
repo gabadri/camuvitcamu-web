@@ -19,17 +19,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // 3) Contact form submit (simple)
-  const form = document.getElementById('contactForm');
-  if (form) {
-    form.addEventListener('submit', (e) => {
+  // 3) Contact form submit (simple alert)
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
       alert('Gracias por contactarnos. Te responderemos pronto.');
-      form.reset();
+      contactForm.reset();
     });
   }
 
-  // 4) Simple scroll reveal using IntersectionObserver
+  // 4) Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && reveals.length) {
     const io = new IntersectionObserver((entries) => {
@@ -42,40 +42,42 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { threshold: 0.12 });
     reveals.forEach(el => io.observe(el));
   } else {
-    // fallback: show all
     reveals.forEach(el => el.classList.add('active'));
   }
 
   // 5) Registro de candidatos
-  const registerForm = document.getElementById('registroForm'); // ID corregido
-  if (registerForm) {
-    registerForm.addEventListener('submit', async (e) => {
+  const registroForm = document.getElementById('registroForm');
+  const msgDiv = document.createElement('div');
+  msgDiv.id = "msg";
+  registroForm.parentNode.insertBefore(msgDiv, registroForm.nextSibling);
+
+  if (registroForm) {
+    registroForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const msgDiv = document.getElementById('msg'); // contenedor para mensajes
-      if (msgDiv) msgDiv.innerHTML = "Enviando...";
+      msgDiv.innerHTML = "Enviando...";
 
-      // Cambia esta URL por la de tu WebApp de Apps Script
-      const webAppUrl = "https://script.google.com/macros/s/AKfycby6J8yH2GONYhMf-GGu72WSL1Hee1UJp29VxRMjo5CZxoim1tMX_CZfmZQQaDmid33YCQ/exec";
+      // ➤ Aquí debes poner la URL de tu Web App de Google Apps Script
+      const webAppUrl = "TU_WEB_APP_URL_AQUI"; 
 
-      // FormData para enviar todos los campos, incluso archivos
-      const formData = new FormData(registerForm);
+      const formData = new URLSearchParams(new FormData(registroForm));
 
       try {
         const res = await fetch(webAppUrl, {
           method: "POST",
           body: formData
         });
+
         const json = await res.json();
 
         if (json.status === "success") {
-          if (msgDiv) msgDiv.innerHTML = `<div class="alert alert-success">${json.message}</div>`;
-          registerForm.reset();
+          msgDiv.innerHTML = `<div class="alert-success">${json.message}</div>`;
+          registroForm.reset();
         } else {
-          if (msgDiv) msgDiv.innerHTML = `<div class="alert alert-danger">${json.message}</div>`;
+          msgDiv.innerHTML = `<div class="alert-danger">${json.message}</div>`;
         }
       } catch (err) {
-        if (msgDiv) msgDiv.innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`;
+        msgDiv.innerHTML = `<div class="alert-danger">Error: ${err.message}</div>`;
       }
     });
   }
