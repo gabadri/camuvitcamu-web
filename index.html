@@ -106,8 +106,8 @@
       <div class="container">
         <h2 class="reveal">Trabaja con Nosotros</h2>
 
-        <!-- Registro / Login -->
         <div class="row">
+          <!-- Registro -->
           <div class="col-md-6 reveal">
             <h3>Registro de Postulante</h3>
             <form id="registerForm" class="contact-form">
@@ -118,8 +118,11 @@
               <input type="text" name="education" placeholder="Nivel Educativo" required>
               <input type="url" name="cv" placeholder="Enlace CV" required>
               <button type="submit" class="btn btn-primary">Registrarse</button>
+              <div id="registerMsg" class="mt-2"></div>
             </form>
           </div>
+
+          <!-- Consulta estado -->
           <div class="col-md-6 reveal">
             <h3>Consulta tu estado</h3>
             <form id="loginForm" class="contact-form">
@@ -142,10 +145,11 @@
           <input type="email" name="email" placeholder="Correo" required>
           <textarea name="message" placeholder="Mensaje" required></textarea>
           <button type="submit" class="btn btn-primary">Enviar</button>
+          <div id="contactMsg" class="mt-2"></div>
         </form>
 
         <div class="contact-info reveal">
-          <p>También puedes escribirnos por nuestras redes sociales o whatsapp.</p>
+          <p>También puedes escribirnos por nuestras redes sociales o WhatsApp.</p>
         </div>
       </div>
     </section>
@@ -158,13 +162,8 @@
     </div>
   </footer>
 
+  <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Aquí agregamos la URL de Apps Script -->
-  <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec";
-  </script>
-
   <script src="script.js"></script>
 </body>
 </html>
