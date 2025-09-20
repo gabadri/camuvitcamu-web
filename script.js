@@ -1,4 +1,4 @@
-const DEPLOY_URL = "TU_URL_DEL_DEPLOY_DE_APPSCRIPT"; // Pega aquí tu URL publicada
+const DEPLOY_URL = "https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec"; // Pega aquí tu URL publicada
 
 // Registrar postulante
 document.getElementById("formRegistro").addEventListener("submit", async (e) => {
@@ -55,3 +55,4 @@ document.getElementById("formLogin").addEventListener("submit", async (e) => {
     alert("Error al conectar con el servidor: " + err);
   }
 });
+
