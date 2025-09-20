@@ -1,141 +1,81 @@
-document.addEventListener('DOMContentLoaded', function() {
+// script.js
 
-  // --- Tabs ---
-  const tabBtns = document.querySelectorAll('.tab-btn');
-  const tabPanes = document.querySelectorAll('.tab-pane');
-  tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      tabPanes.forEach(p => p.classList.remove('active'));
-      document.querySelector(`.tab-pane.${btn.dataset.tab}`)?.classList.add('active');
-    });
-  });
+// ====== NAVBAR RESPONSIVE ======
+document.getElementById("navToggle").addEventListener("click", () => {
+  document.getElementById("navLinks").classList.toggle("active");
+});
 
-  // --- Registro ---
-  const registerForm = document.getElementById('registerForm');
-  const formMessage = document.getElementById('formMessage');
-  const formLoader = document.getElementById('formLoader');
-
-  if(registerForm){
-    registerForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      // Mostrar loader
-      formLoader.style.display = 'inline-block';
-      formMessage.style.display = 'none';
-      formMessage.className = '';
-
-      const data = {
-        action: 'register',
-        nombre: registerForm.nombre.value,
-        dni: registerForm.dni.value,
-        correo: registerForm.correo.value,
-        carrera: registerForm.carrera.value,
-        nivel: registerForm.nivel.value,
-        cv: registerForm.cv.value
-      };
-
-      try {
-        const res = await fetch('https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec', {
-          method:'POST',
-          body: JSON.stringify(data)
-        });
-        const result = await res.json();
-
-        // Ocultar loader
-        formLoader.style.display = 'none';
-
-        if(result.success){
-          formMessage.textContent = result.message || 'Registro exitoso.';
-          formMessage.className = 'success';
-          registerForm.reset();
-        } else {
-          formMessage.textContent = result.message || 'Hubo un error al registrar.';
-          formMessage.className = 'error';
-        }
-        formMessage.style.display = 'block';
-      } catch (err) {
-        formLoader.style.display = 'none';
-        formMessage.textContent = 'Error de conexión. Intenta nuevamente.';
-        formMessage.className = 'error';
-        formMessage.style.display = 'block';
-      }
-    });
+// ====== ANIMACIONES SCROLL ======
+const reveals = document.querySelectorAll(".reveal");
+window.addEventListener("scroll", () => {
+  for (let i = 0; i < reveals.length; i++) {
+    let windowHeight = window.innerHeight;
+    let elementTop = reveals[i].getBoundingClientRect().top;
+    let elementVisible = 100;
+    if (elementTop < windowHeight - elementVisible) {
+      reveals[i].classList.add("active");
+    } else {
+      reveals[i].classList.remove("active");
+    }
   }
+});
 
-  // --- Login ---
-  const loginForm = document.getElementById('loginForm');
-  const statusResult = document.getElementById('statusResult');
-  if(loginForm){
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const data = {
-        action: 'login',
-        correo: loginForm.correo.value,
-        clave: loginForm.clave.value
-      };
-      try {
-        const res = await fetch('https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec', {
-          method:'POST',
-          body: JSON.stringify(data)
-        });
-        const result = await res.json();
-        if(result.success){
-          const d = result.data;
-          statusResult.classList.remove('error');
-          statusResult.innerHTML = `
-            <p><b>Nombre:</b> ${d.nombre}</p>
-            <p><b>DNI:</b> ${d.dni}</p>
-            <p><b>Correo:</b> ${d.correo}</p>
-            <p><b>Clave:</b> ${d.clave}</p>
-            <p><b>Estado:</b> ${d.estado}</p>
-            <p><b>Fecha de Registro:</b> ${new Date(d.fecha).toLocaleDateString()}</p>
-          `;
-        } else {
-          statusResult.classList.add('error');
-          statusResult.textContent = result.message;
-        }
-      } catch (err) {
-        statusResult.classList.add('error');
-        statusResult.textContent = 'Error de conexión. Intenta nuevamente.';
-      }
-    });
-  }
+// ====== AÑO AUTOMÁTICO EN FOOTER ======
+document.getElementById("year").textContent = new Date().getFullYear();
 
-  // --- Resto de tu JS original ---
-  const navToggle = document.getElementById('navToggle');
-  const navLinks = document.getElementById('navLinks');
-  if (navToggle && navLinks) {
-    navToggle.addEventListener('click', () => { navLinks.classList.toggle('active'); });
-    navLinks.addEventListener('click', (e) => { if(e.target.tagName==='A') navLinks.classList.remove('active'); });
-  }
+// ====== SIMULACIÓN BASE DE DATOS (localStorage) ======
+let postulantes = JSON.parse(localStorage.getItem("postulantes")) || [];
 
-  const yearEl = document.getElementById('year');
-  if(yearEl) yearEl.textContent = new Date().getFullYear();
+// ====== REGISTRO DE POSTULANTE ======
+document.getElementById("registerForm").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-  const form = document.getElementById('contactForm');
-  if(form){
-    form.addEventListener('submit', (e)=>{
-      e.preventDefault();
-      alert('Gracias por contactarnos. Te responderemos pronto.');
-      form.reset();
-    });
-  }
+  const name = this.name.value;
+  const dni = this.dni.value;
+  const email = this.email.value;
+  const career = this.career.value;
+  const education = this.education.value;
+  const cv = this.cv.value;
 
-  const reveals = document.querySelectorAll('.reveal');
-  if('IntersectionObserver' in window && reveals.length){
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          entry.target.classList.add('active');
-          io.unobserve(entry.target);
-        }
-      });
-    }, {threshold:0.12});
-    reveals.forEach(el=>io.observe(el));
+  // Generar clave de acceso única
+  const key = Math.random().toString(36).substring(2, 8).toUpperCase();
+
+  // Guardar postulante en memoria (localStorage)
+  const postulante = { name, dni, email, career, education, cv, key, estado: "En revisión" };
+  postulantes.push(postulante);
+  localStorage.setItem("postulantes", JSON.stringify(postulantes));
+
+  alert(`Registro exitoso. Tu clave de acceso es: ${key}`);
+  this.reset();
+});
+
+// ====== CONSULTA DE ESTADO ======
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const email = this.email.value;
+  const key = this.key.value;
+
+  const postulante = postulantes.find(p => p.email === email && p.key === key);
+
+  const statusDiv = document.getElementById("statusResult");
+  if (postulante) {
+    statusDiv.innerHTML = `
+      <div class="alert alert-success">
+        Hola <strong>${postulante.name}</strong>, tu postulación está en estado: 
+        <strong>${postulante.estado}</strong>.
+      </div>`;
   } else {
-    reveals.forEach(el=>el.classList.add('active'));
+    statusDiv.innerHTML = `
+      <div class="alert alert-danger">
+        No se encontró un registro con esos datos. Verifica tu correo y clave.
+      </div>`;
   }
+});
 
+// ====== FORMULARIO DE CONTACTO ======
+document.getElementById("contactForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  alert("Gracias por contactarnos. Te responderemos pronto.");
+  this.reset();
 });
