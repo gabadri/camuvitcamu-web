@@ -1,58 +1,68 @@
-const DEPLOY_URL = "https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec"; // Pega aquí tu URL publicada
+document.addEventListener('DOMContentLoaded', function() {
 
-// Registrar postulante
-document.getElementById("formRegistro").addEventListener("submit", async (e) => {
-  e.preventDefault();
+  // 1) Toggle mobile menu
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
 
-  const data = {
-    action: "register",
-    nombre: document.getElementById("nombre").value,
-    dni: document.getElementById("dni").value,
-    correo: document.getElementById("correo").value,
-    carrera: document.getElementById("carrera").value,
-    nivel: document.getElementById("nivel").value,
-    cv: document.getElementById("cv").value,
-  };
-
-  try {
-    const res = await fetch(DEPLOY_URL, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
     });
 
-    const json = await res.json();
-    alert(json.message);
-  } catch (err) {
-    alert("Error al conectar con el servidor: " + err);
-  }
-});
-
-// Login postulante
-document.getElementById("formLogin").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const data = {
-    action: "login",
-    correo: document.getElementById("loginCorreo").value,
-    clave: document.getElementById("loginClave").value,
-  };
-
-  try {
-    const res = await fetch(DEPLOY_URL, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
+    // Cerrar menú cuando se hace clic en un enlace
+    navLinks.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') navLinks.classList.remove('active');
     });
-
-    const json = await res.json();
-    if (json.success) {
-      alert("Bienvenido " + json.data.nombre + ". Estado: " + json.data.estado);
-    } else {
-      alert(json.message);
-    }
-  } catch (err) {
-    alert("Error al conectar con el servidor: " + err);
   }
-});
 
+  // 2) Año en el footer
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // 3) Contact form submit con App Script
+  const form = document.getElementById('contactForm');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch(
+          "https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec",
+          {
+            method: "POST",
+            body: formData
+          }
+        );
+
+        if (response.ok) {
+          alert("✅ Gracias por registrarte. Revisa tu correo para la contraseña.");
+          form.reset();
+        } else {
+          alert("❌ Ocurrió un error al enviar el formulario.");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("⚠️ No se pudo conectar con el servidor.");
+      }
+    });
+  }
+
+  // 4) Scroll reveal simple
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && reveals.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('active'));
+  }
+
+});
