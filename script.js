@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // --- Registro ---
   const registerForm = document.getElementById('registerForm');
-  if(registerForm){
+  if (registerForm) {
     registerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const data = {
@@ -27,19 +27,20 @@ document.addEventListener('DOMContentLoaded', function() {
         cv: registerForm.cv.value
       };
       const res = await fetch('https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec', {
-        method:'POST',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
       const result = await res.json();
       alert(result.message);
-      if(result.success) registerForm.reset();
+      if (result.success) registerForm.reset();
     });
   }
 
   // --- Login ---
   const loginForm = document.getElementById('loginForm');
   const statusResult = document.getElementById('statusResult');
-  if(loginForm){
+  if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const data = {
@@ -48,11 +49,12 @@ document.addEventListener('DOMContentLoaded', function() {
         clave: loginForm.clave.value
       };
       const res = await fetch('https://script.google.com/macros/s/AKfycbzFLvWVGopeA0PYxJ25z5QZVMXcNHuRoswduEmbd2Amq5M4rLyN-VVfyrk8scYGG_JQ/exec', {
-        method:'POST',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
       const result = await res.json();
-      if(result.success){
+      if (result.success) {
         const d = result.data;
         statusResult.classList.remove('error');
         statusResult.innerHTML = `
@@ -75,15 +77,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const navLinks = document.getElementById('navLinks');
   if (navToggle && navLinks) {
     navToggle.addEventListener('click', () => { navLinks.classList.toggle('active'); });
-    navLinks.addEventListener('click', (e) => { if(e.target.tagName==='A') navLinks.classList.remove('active'); });
+    navLinks.addEventListener('click', (e) => { if (e.target.tagName === 'A') navLinks.classList.remove('active'); });
   }
 
   const yearEl = document.getElementById('year');
-  if(yearEl) yearEl.textContent = new Date().getFullYear();
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   const form = document.getElementById('contactForm');
-  if(form){
-    form.addEventListener('submit', (e)=>{
+  if (form) {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
       alert('Gracias por contactarnos. Te responderemos pronto.');
       form.reset();
@@ -91,18 +93,18 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   const reveals = document.querySelectorAll('.reveal');
-  if('IntersectionObserver' in window && reveals.length){
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
+  if ('IntersectionObserver' in window && reveals.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
           entry.target.classList.add('active');
           io.unobserve(entry.target);
         }
       });
-    }, {threshold:0.12});
-    reveals.forEach(el=>io.observe(el));
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
   } else {
-    reveals.forEach(el=>el.classList.add('active'));
+    reveals.forEach(el => el.classList.add('active'));
   }
 
 });
